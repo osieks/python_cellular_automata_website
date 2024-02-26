@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+    <h2 id="title"><span style="color:#07cd0e">Game</span> <span style="font-size:14px">of</span> <span style="color:#307eaa">Life</span></h2>
+    <table id="table">
+    </table>
+
+    <script>
+        //global-like
+        var isMouseDown = false;
+
+        $(document).ready(function(){
+            var windowSize = {
+                width: window.innerWidth,
+                height: window.innerHeight
+            };
+
+            $.ajax({
+            url: "/init",
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify(windowSize),
+            success: function(data) {
+                var table = "";
+                for (var i = 0; i < data.length; i++) {
+                    table += "<tr>";
+                    for (var j = 0; j < data[i].length; j++) {
+                        table += "<td class='" + (data[i][j] == 1 ? "alive" : "dead") + "'></td>";
+                    }
+                    table += "</tr>";
+                }
+                $("#table").html(table);
+                
+
+                $("#table").on("mousedown touchstart", "td", function(e) {
+                    isMouseDown = true;
+                    $(this).toggleClass("alive dead");
+                    return false; // prevent text selection    
+                    e.preventDefault(); // prevent text selection and page scrolling
+                });
+
+                $(document).on("mouseup touchend", function() {
+                    isMouseDown = false;
+                });
+
+                $("#table").on("mouseover", "td", function(e) {
+                    if (isMouseDown) {
+                        $(this).toggleClass("alive dead");
+                    }
+                    e.preventDefault(); // prevent page scrolling while moving over the grid
+                });
+                $("#table").on("touchmove", function(e) {
+                    if (isMouseDown) {
+                        var touch = e.originalEvent.touches[0] || e.originalEvent.changedTouches[0];
+                        var elm = $(document.elementFromPoint(touch.pageX, touch.pageY));
+                        if(elm.is("td")) {
+                            elm.toggleClass("alive dead");
+                        }
+                    }
+                    e.preventDefault(); // prevent page scrolling while moving over the grid
+                });
+
+                update();
+                setInterval(update, 100);
+            }
+            });
+        
+            function update() {
+                if (!isMouseDown) {
+                    // Get the current state of the cellular automata from the table
+                    var data = [];
+                    $("#table tr").each(function() {
+                        var row = [];
+                        $(this).find("td").each(function() {
+                            row.push($(this).hasClass("alive") ? 1 : 0);
+                        });
+                        data.push(row);
+                    });
+            
+                    $.ajax({
+                        url: "/update",
+                        type: "POST",
+                        contentType: "application/json",
+                        data: JSON.stringify(data),
+                        success: function(data) {
+                            var table = "";
+                            for (var i = 0; i < data.length; i++) {
+                                table += "<tr>";
+                                for (var j = 0; j < data[i].length; j++) {
+                                    table += "<td class='" + (data[i][j] == 1 ? "alive" : "dead") + "'></td>";
+                                }
+                                table += "</tr>";
+                            }
+                            $("#table").html(table);
+                        }
+                    });
+                }
+            }
+        });
+        
+    </script>
+</body>
+</html>

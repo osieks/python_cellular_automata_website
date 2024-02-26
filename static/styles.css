@@ -1,0 +1,56 @@
+/* This applies to the html and body as a whole */
+html, body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+#title {
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, 0);
+    background-color: white;
+    color: black;
+    padding: 10px;
+    text-align: center;
+    z-index: 1;
+    font-family: "Inter var",-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif;
+    margin: 0;
+}
+/* This applies to the table as a whole */
+table {
+    width: 100%;
+    height: 100%;
+    border-collapse: collapse;
+}
+
+/* This applies to the table headers */
+th {
+    background-color: #07cd0e;
+    color: white;
+}
+
+/* This applies to every cell in the table */
+td, th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+/* Styles for the 'alive' class */
+.alive {
+    background-color: #07cd0e; /* green */
+    color: white;
+}
+
+/* Styles for the 'dead' class */
+.dead {
+    background-color: #307eaa; /* blue */
+    color: white;
+}
+
+/* This changes the background color when hovering over a row */
+tr:hover {
+    background-color: #ddd;
+}
