@@ -16,7 +16,7 @@ def init():
     
     window_size = request.get_json()
     # Initialize a random cellular automata based on the window size
-    data = np.zeros((int(window_size['height']/10), int(window_size['width']/10)), dtype=int)
+    data = np.zeros((int(window_size['height']/20), int(window_size['width']/20)), dtype=int)
     print(window_size)
     #data = np.zeros((50, 100), dtype=int)
     #data[1, 1] = 1
