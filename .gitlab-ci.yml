@@ -38,4 +38,4 @@ deploy:
     before_script:
         - docker login -u $REGISTRY_USER -p $REGISTRY_PASS
     script:
-        - docker build -t flask-python-cellular-automata . docker run -p 4000:80 flask-python-cellular-automata
+        - docker run -p 4000:80 0siek/private-image-repository
