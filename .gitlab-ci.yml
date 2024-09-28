@@ -38,4 +38,5 @@ deploy:
     before_script:
         - docker login -u $REGISTRY_USER -p $REGISTRY_PASS
     script:
-        - docker run -p 4000:80 0siek/private-image-repository
+        - docker pull 0siek/private-image-repository:python-app-1.0
+        - docker run -p 4000:80 0siek/private-image-repository"
