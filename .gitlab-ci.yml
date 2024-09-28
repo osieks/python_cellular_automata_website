@@ -40,4 +40,4 @@ deploy:
     - 'echo "Image tag: $IMAGE_TAG"'
     - docker login -u $REGISTRY_USER -p $REGISTRY_PASS
   script:
-    - docker run --restart=always -d -p 4000:80 $IMAGE_NAME:$IMAGE_TAG
+    - 'docker run --restart=always -d -p 4000:80 $IMAGE_NAME:$IMAGE_TAG'
