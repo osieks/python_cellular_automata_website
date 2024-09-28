@@ -2,7 +2,6 @@ variables:
     IMAGE_NAME: 0siek/private-image-repository
     IMAGE_TAG: python-app-1.0
     DOCKER_TLS_CERTDIR: "/certs" 
-    DOCKER_HOST: "tcp://localhost:2375"
 
 stages:
     - test
