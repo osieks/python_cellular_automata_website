@@ -27,10 +27,15 @@ build_image:
         - docker push $IMAGE_NAME:$IMAGE_TAG
 
 deploy:
-    stage: deploy
-    only:
-        - main
-    before_script:
-        - docker login -u $REGISTRY_USER -p $REGISTRY_PASS
-    script:
-        - docker run -p 4000:4000 $IMAGE_NAME:$IMAGE_TAG
+  stage: deploy
+  image: docker:latest
+  services:
+    - docker:dind
+  variables:
+    DOCKER_TLS_CERTDIR: "/certs"
+  only:
+    - main
+  before_script:
+    - docker login -u $REGISTRY_USER -p $REGISTRY_PASS
+  script:
+    - docker run -d -p 4000:4000 $IMAGE_NAME:$IMAGE_TAG
