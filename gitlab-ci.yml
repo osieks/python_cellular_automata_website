@@ -1,0 +1,41 @@
+stages:
+    - test
+    - build
+    - deploy
+
+run_tests:
+    stage: test
+    image: python:3.12-slim
+    before_script:
+        - apt-get update && apt-get install make
+    script:
+        - echo "RUNNING TEST (not really)"
+
+build_image:
+    stage: build
+    variables:
+        IMAGE_NAME: 0siek/private-image-repository
+        IMAGE_TAG: python-app-1.0
+        DOCKER_TLS_CERTDIR: "/certs"
+    image: docker:27.3
+    services:
+        - docker:27.3-dind
+    before_script:
+        - docker login -u $REGISTRY_USER -p $REGISTRY_PASS
+    script:
+        - docker build -t $IMAGE_NAME:$IMAGE_TAG .
+        - docker push $IMAGE_NAME:$IMAGE_TAG
+
+deploy:
+  stage: deploy
+  image: docker:latest
+  services:
+    - docker:dind
+  variables:
+    DOCKER_TLS_CERTDIR: "/certs"
+  only:
+    - main
+  before_script:
+    - docker login -u $REGISTRY_USER -p $REGISTRY_PASS
+  script:
+    - docker run --restart=always -p 4000:80 $IMAGE_NAME:$IMAGE_TAG
