@@ -37,5 +37,7 @@ deploy:
     - main
   before_script:
     - docker login -u $REGISTRY_USER -p $REGISTRY_PASS
+    - echo "Image name: $IMAGE_NAME"
+    - echo "Image tag: $IMAGE_TAG"
   script:
-    - docker run --restart=always -p 4000:80 $IMAGE_NAME:$IMAGE_TAG
+    - docker run --restart=always -d -p 4000:80 $IMAGE_NAME:$IMAGE_TAG
