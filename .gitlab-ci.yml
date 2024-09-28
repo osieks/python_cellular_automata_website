@@ -1,4 +1,9 @@
+stages:
+    - test
+    - build
+
 run_tests:
+    stage: test
     image: python:3.12-slim
     before_script:
         - apt-get update && apt-get install make
@@ -6,6 +11,7 @@ run_tests:
         - echo "RUNNING TEST (not really)"
 
 build_image:
+    stage: build
     variables:
         IMAGE_NAME: 0siek/private-image-repository
         IMAGE_TAG: python-app-1.0
