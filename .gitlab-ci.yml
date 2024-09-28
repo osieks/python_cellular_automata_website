@@ -38,4 +38,4 @@ deploy:
     before_script:
         - docker login -u $REGISTRY_USER -p $REGISTRY_PASS
     script:
-        - docker run --restart=always -d -p 4000:80 cellular-automata
+        - docker build -t flask-python-cellular-automata . docker run --restart=always -p 4000:80 flask-python-cellular-automata
