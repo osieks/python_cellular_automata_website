@@ -1,6 +1,7 @@
 stages:
     - test
     - build
+    - deploy
 
 run_tests:
     stage: test
@@ -24,3 +25,12 @@ build_image:
     script:
         - docker build -t $IMAGE_NAME:$IMAGE_TAG .
         - docker push $IMAGE_NAME:$IMAGE_TAG
+
+deploy:
+    stage: deploy
+    only:
+        - main
+    before_script:
+        - docker login -u $REGISTRY_USER -p $REGISTRY_PASS
+    script:
+        - docker run -p 4000:4000 $IMAGE_NAME:$IMAGE_TAG
