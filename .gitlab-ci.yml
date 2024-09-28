@@ -10,9 +10,9 @@ build_image:
         IMAGE_NAME: 0siek/private-image-repository
         IMAGE_TAG: python-app-1.0
         DOCKER_TLS_CERTDIR: "/certs"
-    image: docker:27:3
+    image: docker:27.3
     services:
-        - docker:27:3-dind
+        - docker:27.3-dind
     before_script:
         - docker login -u $REGISTRY_USER -p $REGISTRY_PASS
     script:
