@@ -12,7 +12,7 @@ run_tests:
     stage: test
     image: python:3.12-slim
     script:
-        - echo "RUNNING TEST (not really)"
+        - echo "RUNNING TESTs (not really)"
 
 build_image:
     stage: build
