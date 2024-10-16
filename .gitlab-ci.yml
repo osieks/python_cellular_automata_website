@@ -7,6 +7,7 @@ stages:
     - test
     - build
     - deploy
+    - cleanup
 
 run_tests:
     stage: test
@@ -25,18 +26,40 @@ build_image:
         - docker image prune -a
         - docker build -t ${IMAGE_NAME}:${IMAGE_TAG} .
         - docker push ${IMAGE_NAME}:${IMAGE_TAG}
+    only:
+      changes:
+        - Dockerfile
+        - requirements.txt
+        - app.py
+        - static/*
+        - templates/*
 
 deploy:
     stage: deploy
     interruptible: true
-    image: docker:27.3
+    image: docker:latest
     services:
-        - docker:27.3-dind
+        - docker:dind
+    before_script:
+        - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    script:
+        # Pull the latest image built
+        - docker pull $CI_REGISTRY_IMAGE:$IMAGE_TAG
+        # Stop and remove the old container if it exists
+        - docker ps -q --filter "name=python-app" | xargs -r docker stop
+        - docker ps -a -q --filter "name=python-app" | xargs -r docker rm
+        # Run the new image on port 4000
+        - docker run -d --name python-app --restart=always -p 4000:80 $CI_REGISTRY_IMAGE:$IMAGE_TAG
     only:
         - main
-    before_script:
-        - docker login -u ${REGISTRY_USER} -p ${REGISTRY_PASS}
-    script:
-        #- docker pull ${IMAGE_NAME}:${IMAGE_TAG}
-        #- docker build . -t ${IMAGE_NAME}:${IMAGE_TAG}
-        - docker run -d -p 4000:80 ${IMAGE_NAME}:${IMAGE_TAG}
+
+# Optional Cleanup Stage: Clean up old Docker images
+cleanup:
+  stage: cleanup
+  image: docker:latest
+  services:
+    - docker:dind
+  script:
+    # Remove dangling images
+    - docker image prune -f
+  when: always
