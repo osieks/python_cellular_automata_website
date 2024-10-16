@@ -1,6 +1,6 @@
 variables:
-    IMAGE_NAME: 0siek/private-image-repository
-    IMAGE_TAG: python-app-1.0
+    IMAGE_NAME: registry.gitlab.com/testowe7261437/python_cellular_automata_website
+    IMAGE_TAG: python-cellular-automata-app
     DOCKER_TLS_CERTDIR: "/certs" 
 
 stages:
