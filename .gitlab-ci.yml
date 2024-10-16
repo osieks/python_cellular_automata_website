@@ -4,7 +4,7 @@ variables:
   DOCKER_TLS_CERTDIR: "/certs" 
 
 stages:
-  #- test
+  - test
   - build
   - deploy
   - cleanup
