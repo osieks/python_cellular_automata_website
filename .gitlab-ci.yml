@@ -13,13 +13,13 @@ run_tests:
   stage: test
   image: python:3.12-windows
   before_script:
-    - python -v
-    - pip –version
+    - python3 -v
+    - pip3 –version
     - C:\Python312\Scripts\pip.exe install --upgrade pip  # Upgrade pip to the latest version
     - C:\Python312\Scripts\pip.exe install -r requirements.txt
   script:    
-    - python --version  # Check Python version
-    - pip --version     # Check pip version
+    - python3 --version  # Check Python version
+    - pip3 --version     # Check pip version
     - echo "Running tests"
     - pytest test_the_app.py
 
