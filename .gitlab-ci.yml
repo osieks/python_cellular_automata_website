@@ -13,6 +13,8 @@ run_tests:
   stage: test
   image: python:3.12-slim
   before_script:
+    - apt-get install -y python3-pip  # Ensure pip is installed
+    - pip install --upgrade pip  # Upgrade pip to the latest version
     - pip install -r requirements.txt
   script:
     - echo "Running tests"
