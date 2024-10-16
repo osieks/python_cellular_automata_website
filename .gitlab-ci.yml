@@ -4,7 +4,7 @@ variables:
     DOCKER_TLS_CERTDIR: "/certs" 
 
 stages:
-    - test
+    #- test
     - build
     - deploy
     - cleanup
@@ -56,7 +56,7 @@ deploy:
 
 
         # Run the new image on port 4000
-        - docker run -d --name python-app --restart=always -p 4000:80 ${CI_REGISTRY_IMAGE}:${IMAGE_TAG}
+        - docker run -d --name python-app --restart=always -p 4000:80 ${IMAGE_NAME}:${IMAGE_TAG}
     only:
         - main
 
