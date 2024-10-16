@@ -13,8 +13,8 @@ run_tests:
   stage: test
   image: python:3.12-windows
   before_script:
-    - pip install --upgrade pip  # Upgrade pip to the latest version
-    - pip install -r requirements.txt
+    - C:\Python39\Scripts\pip.exe install --upgrade pip  # Upgrade pip to the latest version
+    - C:\Python39\Scripts\pip.exe install -r requirements.txt
   script:    
     - python --version  # Check Python version
     - pip --version     # Check pip version
