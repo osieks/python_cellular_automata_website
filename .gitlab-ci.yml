@@ -55,8 +55,7 @@ deploy:
     - docker ps -q --filter "name=python-app" | ForEach-Object { docker rm $_ }
 
     # Build a new container
-    - echo "IMAGE_NAME: ${IMAGE_NAME}"
-    - echo "IMAGE_TAG: ${IMAGE_TAG}"
+
     # Run the new container
     - docker run -d --name python-app --restart=always -p 4000:80 "${IMAGE_NAME}:${IMAGE_TAG}"
   only:
