@@ -51,8 +51,8 @@ deploy:
     # Stop and remove the old container if it exists
     #- docker ps -q --filter "name=python-app" | xargs -r docker stop
     #- docker ps -a -q --filter "name=python-app" | xargs -r docker rm
-    - docker ps -q --filter "name=python-app" | ForEach-Object { docker stop $_ } | ForEach-Object { docker rm $_ }
-    #- docker ps -q --filter "name=python-app" 
+    - docker ps -q --filter "name=python-app" | ForEach-Object { docker stop $_ } 
+    - docker ps -q --filter "name=python-app" | ForEach-Object { docker rm $_ }
 
     # Build a new container
     - echo "IMAGE_NAME: ${IMAGE_NAME}"
