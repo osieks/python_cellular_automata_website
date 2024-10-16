@@ -9,7 +9,7 @@ run_tests:
     before_script:
         - apt-get update && apt-get install make
     script:
-        - echo "RUNNING TEST (not really)"
+        - echo "tutaj pytest tests/test_app.py"
 
 build_image:
     stage: build
