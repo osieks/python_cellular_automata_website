@@ -11,11 +11,13 @@ stages:
 
 run_tests:
   stage: test
-  image: python:3.12
+  image: python:3.12-windows
   before_script:
     - pip install --upgrade pip  # Upgrade pip to the latest version
     - pip install -r requirements.txt
-  script:
+  script:    
+    - python --version  # Check Python version
+    - pip --version     # Check pip version
     - echo "Running tests"
     - pytest test_the_app.py
 
