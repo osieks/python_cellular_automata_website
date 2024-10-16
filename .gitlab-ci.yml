@@ -9,11 +9,14 @@ stages:
   - deploy
   - cleanup
 
-#run_tests:
-#    stage: test
-#    image: python:3.12-slim
-#    script:
-#        - echo "RUNNING TESTs (not really)"
+run_tests:
+  stage: test
+  image: python:3.12-slim
+  before_script:
+    - apt-get update && apt-get install -y make
+  script:
+    - echo "Running tests"
+    - pytest test_the_app.py
 
 build_image:
   stage: build
