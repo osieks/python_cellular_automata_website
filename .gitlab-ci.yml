@@ -11,12 +11,12 @@ stages:
 
 run_tests:
   stage: test
-  image: python:3.12-windows
+  image: python:3.12
   before_script:
-    - python3 -v
-    - pip3 –version
-    - C:\Python312\Scripts\pip.exe install --upgrade pip  # Upgrade pip to the latest version
-    - C:\Python312\Scripts\pip.exe install -r requirements.txt
+    - python -v
+    - pip –version
+    - pip install --upgrade pip  # Upgrade pip to the latest version
+    - pip install -r requirements.txt
   script:    
     - python3 --version  # Check Python version
     - pip3 --version     # Check pip version
@@ -25,9 +25,9 @@ run_tests:
 
 build_image:
   stage: build
-  image: docker:27.3
+  image: docker:latest
   services:
-  - docker:27.3-dind
+  - docker:dind
   before_script:
    - echo "Logging in to GitLab Container Registry"
    - docker login -u ${CI_REGISTRY_USER} -p ${CI_REGISTRY_PASSWORD} ${CI_REGISTRY}
